@@ -1,0 +1,25 @@
+# Editor and IDE specific files
+.vscode/
+.idea/
+.DS_Store
+
+# Node.js dependencies
+node_modules/
+
+# Build directories
+dist/
+build/
+out/
+
+# Temporary files and logs
+*.log
+tmp/
+temp/
+
+# Sensitive information
+.env
+config.json
+
+# Operating system files
+Thumbs.db
+*.bak
