@@ -43,3 +43,6 @@ env/
 # Static & media files
 staticfiles/
 media/
+
+#Script para mostrar o caminho dos arquivos
+caminho.py

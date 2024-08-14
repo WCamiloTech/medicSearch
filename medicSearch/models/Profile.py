@@ -1,3 +1,5 @@
+from django.db.models import Count, Sum
+
 from medicSearch.models import *
 from medicSearch.models.Speciality import Speciality
 
@@ -18,10 +20,24 @@ class Profile(models.Model):
         return '{}'.format(self.user.username)
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+def save_user_profile(sender, instance, **kwargs):
+    try:
+        instance.profile.save()
+    except:
+        pass
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+def show_scoring_average(self):
+    from .Rating import Rating
+    try:
+        ratings = Rating.objects.filter(user_rated=self.user).aggregate(Sum('value'), Count('user'))
+        if ratings['user__count'] > 0:
+            scoring_average = ratings['value__sum'] / ratings['user__count']
+            scoring_average = round(scoring_average, 2)  # Arredondando o valor para duas casas decimais
+            return scoring_average
+        return 'Sem avaliações'
+    except:
+        return 'Sem avaliações'
